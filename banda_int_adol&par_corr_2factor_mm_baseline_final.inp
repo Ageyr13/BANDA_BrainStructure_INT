@@ -1,0 +1,46 @@
+TITLE:
+                  BANDA INT model baseline;
+
+              DATA:
+ 	FILE IS Y:\Projects\BANDA\BANDA214Data\Analysis\Mplus\banda.csv;
+
+              VARIABLE:
+                  NAMES ARE
+                  ID site bu mgh age gender ca pt da aa smri mfqa1 social1 panic1 dep1 
+                  sepanx1 genanx1 ocd1 shaps1 staisa1 staita1 mfqa2 social2 panic2 
+                  dep2 sepanx2 genanx2 ocd2 shaps2 staisa2 staita2 mfqa3 social3 
+                  panic3 dep3 sepanx3 genanx3 ocd3 shaps3 staisa3 staita3
+                  aggr1 atten1 delinq1 exter1 anxdep1 wd1 soc1 inter1 somat1 tht1 
+                  gendisd1 gendisa1 loss1 aa1 ad1 mfqp1 staisp1 staitp1 wd3 somat3
+                  anxdep3 soc3 tht3 atten3 delinq3 aggr3 inter3 exter3 gendisp3
+                  gendisa3 loss3 aa3 ad3 mfqp3 staisp3 stait3p;
+
+                  USEVARIABLES ARE
+                    mfqa1 social1 panic1 sepanx1 genanx1 ocd1 dep1
+                    anxdep1 wd1 somat1 mfqp1;
+
+                  MISSING
+                      ALL (-99);
+
+                  IDVARIABLE IS
+                      ID;
+
+              ANALYSIS: ESTIMATOR=MLR;
+
+              MODEL:
+		  !Correlated two-factor model
+		  
+		  !Adolescent-Reported INT factor
+                       adolint BY social1* panic1 sepanx1 ocd1 genanx1 dep1 mfqa1;
+                       
+                       !Parent-Reported INT factor
+                       parint BY anxdep1* wd1 somat1 mfqp1;
+                 
+                       [adolint@0 parint@0];
+                        adolint@1 parint@1;
+                        
+                        dep1 WITH mfqa1;
+                        mfqa1 WITH mfqp1;
+
+              OUTPUT: SAMPSTAT STANDARDIZED TECH1 TECH4 CINTERVAL MODINDICES residual;
+
