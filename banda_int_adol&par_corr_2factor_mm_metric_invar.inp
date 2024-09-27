@@ -1,0 +1,80 @@
+TITLE:
+                 BANDA INT correlated two-factor model metric invariance;
+
+              DATA:
+ FILE IS Y:\Projects\BANDA\BANDA214Data\Analysis\Mplus\banda.csv;
+
+              VARIABLE:
+                  NAMES ARE
+                  ID site bu mgh age gender ca pt da aa smri mfqa1 social1 panic1 dep1 
+                  sepanx1 genanx1 ocd1 shaps1 staisa1 staita1 mfqa2 social2 panic2 
+                  dep2 sepanx2 genanx2 ocd2 shaps2 staisa2 staita2 mfqa3 social3 
+                  panic3 dep3 sepanx3 genanx3 ocd3 shaps3 staisa3 staita3
+                  aggr1 atten1 delinq1 exter1 anxdep1 wd1 soc1 inter1 somat1 tht1 
+                  gendisd1 gendisa1 loss1 aa1 ad1 mfqp1 staisp1 staitp1 wd3 somat3
+                  anxdep3 soc3 tht3 atten3 delinq3 aggr3 inter3 exter3 gendisp3
+                  gendisa3 loss3 aa3 ad3 mfqp3 staisp3 stait3p;
+
+                  USEVARIABLES ARE
+                    mfqa1 social1 panic1 sepanx1 genanx1 ocd1 dep1
+                    anxdep1 wd1 somat1 mfqp1
+                    mfqa3 social3 panic3 sepanx3 genanx3 ocd3 dep3
+                    anxdep3 wd3 somat3 mfqp3;
+
+                  MISSING
+                      ALL (-99);
+
+                  IDVARIABLE IS
+                      ID;
+
+              ANALYSIS: ESTIMATOR=MLR;
+
+              MODEL:
+
+	!Testing metric invariance across baseline and 12-month follow-up waves
+                       [adolint1@0 adolint3*0 parint1@0 parint3*0];
+                        adolint1@1 adolint3*1 parint1@1 parint3*1;
+                        
+                        adolint1 BY social1* (1);
+                        adolint3 BY social3* (1);
+                        adolint1 BY panic1 (2); 
+                        adolint3 BY panic3 (2);
+                        adolint1 BY sepanx1 (3);
+                        adolint3 BY sepanx3 (3);
+                        adolint1 BY ocd1 (4);
+                        adolint3 BY ocd3 (4);
+                        adolint1 BY genanx1 (5);
+                        adolint3 BY genanx3 (5);
+                        adolint1 BY dep1 (6);
+                        adolint3 BY dep3 (6);
+                        adolint1 BY mfqa1 (7);
+                        adolint3 BY mfqa3 (7);
+
+                       parint1 BY anxdep1* (8);
+                       parint3 BY anxdep3* (8);
+                       parint1 BY wd1 (9); 
+                       parint3 BY wd3 (9);
+                       parint1 BY somat1 (10);
+                       parint3 BY somat3 (10);
+                       parint1 BY mfqp1 (11);
+                       parint3 BY mfqp3 (11); 
+                          
+                       [social1 social3] (12);
+                       [anxdep1 anxdep3] (13);
+
+                        mfqa1 WITH mfqp1 dep1 dep3;
+                        mfqa3 WITH mfqp3 dep1 dep3;
+                        social1 social3 WITH social1 social3;
+                        panic1 panic3 WITH panic1 panic3;
+                        sepanx1 sepanx3 WITH sepanx1 sepanx3;
+                        ocd1 ocd3 WITH ocd1 ocd3;
+                        genanx1 genanx3 WITH genanx1 genanx3;
+                        dep1 dep3 WITH dep1 dep3;
+                        mfqa1 mfqa3 WITH mfqa1 mfqa3;
+                        anxdep1 anxdep3 WITH anxdep1 anxdep3;
+                        wd1 wd3 WITH wd1 wd3;
+                        somat1 somat3 WITH somat1 somat3;
+                        mfqp1 mfqp3 WITH mfqp1 mfqp3;
+                        
+
+              OUTPUT: SAMPSTAT MODINDICES;
