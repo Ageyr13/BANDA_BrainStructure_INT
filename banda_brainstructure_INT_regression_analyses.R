@@ -16,9 +16,6 @@ library(interactions)       # use for calculating simple intercepts and slopes
 library(ggseg)              # use for creating brain images
 library(patchwork)          # use for creating figures
 
-#set working directory
-setwd("/Users/adrienneromer/Library/CloudStorage/OneDrive-VirginiaTech/BANDA")
-
 #import data
 intfactor <- read.csv("banda_all_timepoints_reduced_dataset_for_analysis_071024.csv",header=TRUE)
 
